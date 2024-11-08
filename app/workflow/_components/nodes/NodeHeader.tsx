@@ -16,9 +16,9 @@ function NodeHeader({ taskType }: { taskType: TaskType }) {
         <p className="text-xs font-bold uppercase text-muted-foreground">
           {task.label}
         </p>
-        <div className="flex gap-1">
-          {task.isEntryPoint && <Badge className="py-0">Entry Point</Badge>}
-          <Badge className="flex gap-2 items-center text-xs">
+        <div className="flex gap-1 items-center">
+          {task.isEntryPoint && <Badge className="py-1">Entry Point</Badge>}
+          <Badge className="flex gap-2 items-center text-xs py-1">
             <Coins size={16} />
             TODO
           </Badge>
