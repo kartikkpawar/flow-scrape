@@ -29,7 +29,6 @@ function NodeParamField({
   );
 
   const value = node?.data?.inputs?.[param.name];
-  console.log(value, "@value");
 
   switch (param.type) {
     case TaskParamType.STRING:
