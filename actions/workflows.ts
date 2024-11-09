@@ -1,12 +1,14 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { WorkflowStatus } from "@/lib/types";
+import { AppNode, TaskType, WorkflowStatus } from "@/lib/types";
+import { createFlowNode } from "@/lib/workflow/CreateFlowNode";
 import {
   createWorkflowShema,
   createWorkflowShemaType,
 } from "@/schema/workflows";
 import { auth } from "@clerk/nextjs/server";
+import { Edge } from "@xyflow/react";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -35,6 +37,11 @@ export async function createWorkflow(form: createWorkflowShemaType) {
     throw new Error("Unauthenticated");
   }
 
+  const initWorkflow: { nodes: AppNode[]; edges: Edge[] } = {
+    nodes: [],
+    edges: [],
+  };
+  initWorkflow.nodes.push(createFlowNode(TaskType.LAUNCH_BROWSER));
   const result = await prisma.workflow.create({
     data: {
       userId,
@@ -104,4 +111,5 @@ export async function updateWorkFlow({
       userId,
     },
   });
+  revalidatePath("/workflows");
 }
